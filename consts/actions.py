@@ -1,0 +1,6 @@
+ACTION_LIST = 'list'
+ACTION_CREATE = 'create'
+ACTION_RETRIEVE = 'retrieve'
+ACTION_UPDATE = 'update'
+ACTION_PARTIAL_UPDATE = 'partial_update'
+ACTION_DESTROY = 'destroy'
