@@ -6,6 +6,7 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from services import auth_service, user_service
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
