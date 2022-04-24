@@ -2,7 +2,7 @@ from tkinter.messagebox import NO
 from rest_framework import authentication, exceptions, HTTP_HEADER_ENCODING
 from django.contrib import auth
 from django.conf import settings
-from services import jwt_service, user_service
+from services import jwt_service, user_service, token_service
 
 
 AUTH_HEADER_TYPES = ["Bearer"]
@@ -52,8 +52,8 @@ class JWTAuthentication(authentication.BaseAuthentication):
             return None, None
 
         token = self.get_raw_token(header)
-        valid, decodoed = jwt_service(token)
-        if not valid:
+        valid, decodoed = jwt_service.Decode(token)
+        if not valid or token_service.Find(decodoed.get("jti")) is None:
             return None, None
         
         user_id = decodoed.get("user_id")
