@@ -13,6 +13,17 @@ class BoardViewSet(viewsets.ModelViewSet):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
 
+    def get_queryset(self):
+        topic = self.request.query_params.get('topic')
+        if not topic is None:
+            self.queryset = self.queryset.filter(topic=topic)
+        order_by = self.request.query_params.get('order_by')
+        if order_by in ['topic', 'name']:
+            if self.request.query_params.get('decs'):
+                order_by = "-" + order_by
+            self.queryset = self.queryset.order_by(order_by)
+        return super().get_queryset()
+
     def get_permissions(self):
         permission_classes = [AllowAny]
         if self.action == actions.ACTION_CREATE:
