@@ -1,8 +1,7 @@
 from venv import create
 from rest_framework import serializers
 from consts import boards
-from .models import Board, ModeratorInvitaion
-from services import user_service
+from .models import Board, ModeratorInvitaion, Post, Thread
 
 
 class BoardSerializer(serializers.ModelSerializer):
@@ -43,3 +42,13 @@ class ModeratorInvitaionSerializer(serializers.ModelSerializer):
             board.moderators.add(instance.user)
             board.save()
         return super().update(instance, validated_data)
+
+class ThreadSerailizer(serializers.ModelSerializer):
+    class Meta:
+        model = Thread
+        fields = '__all__'
+
+class PostSerailizer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'

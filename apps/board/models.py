@@ -6,6 +6,7 @@ User = auth.get_user_model()
 
 class Board(models.Model):
     name = models.CharField(max_length=255, blank=False)
+    topic = models.CharField(max_length=255, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     moderators = models.ManyToManyField(User, blank=True, related_name='board_moderators')
 
