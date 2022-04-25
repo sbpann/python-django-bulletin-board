@@ -15,16 +15,15 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action == actions.ACTION_LIST:
-            permission_classes = [AllowAny]
-        elif self.action == actions.ACTION_RETRIEVE:
+        permission_classes = [AllowAny]
+        
+        if self.action == actions.ACTION_RETRIEVE:
             permission_classes = [IsAdminUser | IsSelf]
-        elif self.action == actions.ACTION_UPDATE or self.action == actions.ACTION_PARTIAL_UPDATE:
+        if self.action == actions.ACTION_UPDATE or self.action == actions.ACTION_PARTIAL_UPDATE:
             permission_classes = [IsSelf]
-        elif self.action == actions.ACTION_DESTROY:
+        if self.action == actions.ACTION_DESTROY:
             permission_classes = [IsAdminUser | IsSelf]
-        else:
-            permission_classes = [AllowAny]
+        
         return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):

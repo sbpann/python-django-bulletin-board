@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib import auth
 from consts import boards
@@ -21,7 +22,15 @@ class Post(models.Model):
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE, null=False)
 
 class ModeratorInvitaion(models.Model):
+    def save(self, *args, **kwargs):
+        self.updated_on = datetime.datetime.now(tz=datetime.timezone.utc)
+        super().save(*args, **kwargs)
     board = models.ForeignKey(Board, on_delete=models.CASCADE, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     updated_on = models.DateTimeField(auto_now_add=True, blank=True)
-    status = models.CharField(max_length=255, blank=False, default=boards.INVIATION_STATUS_PENDING)
+    STATUS_CHOICES = [
+        (boards.INVITATION_STATUS_ACCETPED, boards.INVITATION_STATUS_ACCETPED),
+        (boards.INVITATION_STATUS_DECLINED, boards.INVITATION_STATUS_DECLINED),
+        (boards.INVITATION_STATUS_PENDING, boards.INVITATION_STATUS_PENDING)
+    ]
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, blank=False, default=boards.INVITATION_STATUS_PENDING)
