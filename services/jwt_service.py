@@ -8,6 +8,6 @@ def Encode(payload):
 
 def Decode(token):
     try:
-        return True, jwt.encode(token, settings.JWT_HS256_SECRET_KEY, algorithm="HS256")
+        return True, jwt.decode(token, settings.JWT_HS256_SECRET_KEY, algorithms="HS256")
     except:
         return False, None
